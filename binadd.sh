@@ -4,12 +4,12 @@
 # current branch
 # Tested by creating a new branch and running script
 # TODO: Print to stderr
+# TODO: Change the "main" to "master" when the script works
 currBranch=$(git rev-parse --abbrev-ref HEAD)
-if ! [ $currBranch = "master" ]; then
-	echo "Current branch is not main, it's $currBranch."
+if ! [ $currBranch = "main" ]; then
+	echo "ERROR: Current branch is $currBranch, not main." >&2 
 	exit 1
-else 
-	echo "Current branch is main."
-	exit 0
 fi
 
+
+echo "Current branch is main."
