@@ -2,16 +2,13 @@
 #
 # Links scripts from the directory they're developed in to ~/bin
 
-# TODO: 
-#	Consider splitting into functions
-# 	`binadd.sh` should be renamed `binlink.sh`
-# 	The current code should be encapsulated in an "add" function
-
+# Adds a new link in `~/bin` to another script from the main branch
+# of a source repo
 add() {
 	# Checks that the current branch is master
 	currBranch=$(git rev-parse --abbrev-ref HEAD)
-	if ! [ $currBranch = "bin-link" ]; then
-		echo "ERROR: Current branch is $currBranch, not bin-link." >&2 
+	if ! [ $currBranch = "master" ]; then
+		echo "ERROR: Current branch is $currBranch, not master." >&2 
 		exit 1
 	fi
 
@@ -30,7 +27,7 @@ add() {
 	done
 }
 
-# Entrypoint
+# Entrypoint for the script
 main() {
 	add
 }
