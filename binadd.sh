@@ -1,13 +1,16 @@
 #!/bin/bash
+#
+# Links scripts from the directory they're developed in to ~/bin
 
-# TODO: Consider splitting into functions
+# Checks that the current branch is master
 currBranch=$(git rev-parse --abbrev-ref HEAD)
-if ! [ $currBranch = "bin-add" ]; then
-	echo "ERROR: Current branch is $currBranch, not bin-add." >&2 
+if ! [ $currBranch = "master" ]; then
+	echo "ERROR: Current branch is $currBranch, not master." >&2 
 	exit 1
 fi
 
-echo "Current branch is bin-add."
+# For each script in current branch in current repo, links to ~/bin
+# If link already exists, an error is returned
 set -o errtrace
 trap "echo ERROR: Link creation failed." ERR
 scripts=$(ls $PWD/*)
@@ -19,4 +22,7 @@ for script in $scripts; do
 		echo "Link $link created."
 	fi
 done
+
+
+
 
