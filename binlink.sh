@@ -7,8 +7,8 @@
 add() {
 	# Checks that the current branch is master
 	currBranch=$(git rev-parse --abbrev-ref HEAD)
-	if ! [ $currBranch = "master" ]; then
-		echo "ERROR: Current branch is $currBranch, not master." >&2 
+	if ! [ $currBranch = "addopt" ]; then
+		echo "ERROR: Current branch is $currBranch, not addopt." >&2 
 		exit 1
 	fi
 
@@ -28,9 +28,18 @@ add() {
 }
 
 # Entrypoint for the script
-main() {
-	add
-}
+while getopts ":a" option; do
+	echo "options while loop entered."
+	case $option in
+		a)
+			add
+			exit
+			;;
+		\?) 
+			echo "Error: Invalid option" >&2
+			exit
+			;;
+	esac
+done
 
-main
 
