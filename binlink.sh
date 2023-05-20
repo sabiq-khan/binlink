@@ -36,6 +36,23 @@ add() {
 	done
 }
 
+# Delete a specified link from ~/bin 
+delete(){
+	# Checks if specified file exists in ~/bin and if its a link
+	if ! [ -f $HOME/bin/$link ]; then
+		echo "ERROR: $HOME/bin does not contain '$link'." >&2
+		exit 1
+	elif ! [ "$(stat -c "%F" $HOME/bin/$link)" = "symbolic link" ]; then
+		echo "ERROR: $HOME/bin/$link is not a symbolic link." >&2
+		exit 1
+	fi
+	
+	# Deletes link from ~/bin
+	echo "Deleting $HOME/bin/$link..."
+	rm $HOME/bin/$link
+	echo "Link $HOME/bin/$link deleted."
+}
+
 # Lists the links currently present in ~/bin
 list(){
 	ls -lh $HOME/bin | grep "^l"
@@ -57,7 +74,7 @@ if [ $# -eq 0 ]; then
 fi
 
 # Parses arguments
-while getopts ":al" option; do
+while getopts ":ald:" option; do
 	case $option in
 		l) 
 			list
@@ -65,6 +82,11 @@ while getopts ":al" option; do
 			;;
 		a)
 			add
+			exit
+			;;
+		d) 
+			link=$OPTARG
+			delete $link
 			exit
 			;;
 		\?) 
