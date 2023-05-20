@@ -28,15 +28,19 @@ add() {
 }
 
 # Entrypoint for the script
+if [ $# -eq 0 ]; then
+	echo "ERROR: No arguments specified." >&2
+	exit 1
+fi
+
 while getopts ":a" option; do
-	echo "options while loop entered."
 	case $option in
 		a)
 			add
 			exit
 			;;
 		\?) 
-			echo "Error: Invalid option" >&2
+			echo "ERROR: Invalid option" >&2
 			exit
 			;;
 	esac
