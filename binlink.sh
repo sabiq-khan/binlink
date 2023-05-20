@@ -36,6 +36,11 @@ add() {
 	done
 }
 
+# Lists the links currently present in ~/bin
+list(){
+	ls -lh $HOME/bin | grep "^l"
+}
+
 #####################################################################
 # ENTRYPOINT                                                        #
 #####################################################################
@@ -52,8 +57,12 @@ if [ $# -eq 0 ]; then
 fi
 
 # Parses arguments
-while getopts ":a" option; do
+while getopts ":al" option; do
 	case $option in
+		l) 
+			list
+			exit
+			;;
 		a)
 			add
 			exit
