@@ -7,8 +7,8 @@
 add() {
 	# Checks that the current branch is master
 	currBranch=$(git rev-parse --abbrev-ref HEAD)
-	if ! [ $currBranch = "addopt" ]; then
-		echo "ERROR: Current branch is $currBranch, not addopt." >&2 
+	if ! [ $currBranch = "master" ]; then
+		echo "ERROR: Current branch is $currBranch, not master." >&2 
 		exit 1
 	fi
 
