@@ -2,9 +2,18 @@
 #
 # Links scripts from the directory they're developed in to ~/bin
 
-# Adds a new link in `~/bin` to another script from the main branch
+#####################################################################
+# FUNCTIONS                                                         #
+#####################################################################
+# Adds a new link in ~/bin to another script from the main branch
 # of a source repo
 add() {
+	# Checks that the current directory contains a git repository
+	if ! [ -d $PWD/.git ]; then
+		echo "ERROR: No git repository in current directory $PWD." >&2
+		exit 1	
+	fi
+
 	# Checks that the current branch is master
 	currBranch=$(git rev-parse --abbrev-ref HEAD)
 	if ! [ $currBranch = "master" ]; then
@@ -27,12 +36,22 @@ add() {
 	done
 }
 
-# Entrypoint for the script
+#####################################################################
+# ENTRYPOINT                                                        #
+#####################################################################
+# Checks if ~/bin exists, since all script actions depend on it
+if ! [ -d $HOME/bin ]; then
+	echo "ERROR: $HOME/bin does not exist." >&2
+   	exit 1
+fi
+
+# Checks if the script was called with arguments
 if [ $# -eq 0 ]; then
 	echo "ERROR: No arguments specified." >&2
 	exit 1
 fi
 
+# Parses arguments
 while getopts ":a" option; do
 	case $option in
 		a)
