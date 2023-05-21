@@ -48,7 +48,7 @@ delete(){
 	fi
 	
 	# Deletes link from ~/bin
-	echo "Deleting $HOME/bin/$1..."
+	echo "Deleting link $HOME/bin/$1..."
 	rm $HOME/bin/$1
 	echo "Link $HOME/bin/$1 deleted."
 }
