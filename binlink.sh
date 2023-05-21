@@ -5,6 +5,17 @@
 #####################################################################
 # FUNCTIONS                                                         #
 #####################################################################
+# Explains how to use `binlink` and its options
+help(){
+	echo -e "Usage: binlink -[OPTIONS] [ARGUMENTS]\n"
+	echo -e "Symlinks scripts from their respective repositories to ~/bin, making them executable by name like built-in bash commands and GNU utilities by adding them to the \$PATH.\n"
+	echo "Options:"
+	echo -e "\t-a\t\tLinks scripts from the master branch of the current repository to ~/bin."
+	echo -e "\t-l\t\tLists the links currently present in ~/bin."
+	echo -e "\t-d string\tDeletes a specified link from ~/bin."
+	echo -e "\t-h\t\tPrints this help message.\n"
+}
+
 # Adds a new link in ~/bin to another script from the main branch
 # of a source repo
 add() {
@@ -74,7 +85,7 @@ if [ $# -eq 0 ]; then
 fi
 
 # Parses arguments
-while getopts "ald:" option; do
+while getopts "ald:h" option; do
 	case $option in
 		l) 
 			list
@@ -86,6 +97,10 @@ while getopts "ald:" option; do
 			;;
 		d) 
 			delete $OPTARG
+			exit
+			;;
+		h) 
+			help
 			exit
 			;;
 	esac
