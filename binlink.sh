@@ -38,19 +38,19 @@ add() {
 
 # Delete a specified link from ~/bin 
 delete(){
-	# Checks if specified file exists in ~/bin and if its a link
-	if ! [ -f $HOME/bin/$link ]; then
-		echo "ERROR: $HOME/bin does not contain '$link'." >&2
+	# Checks if specified file exists in ~/bin and if it's a link
+	if ! [ -f $HOME/bin/$1 ]; then
+		echo "ERROR: $HOME/bin does not contain '$1'." >&2
 		exit 1
-	elif ! [ "$(stat -c "%F" $HOME/bin/$link)" = "symbolic link" ]; then
-		echo "ERROR: $HOME/bin/$link is not a symbolic link." >&2
+	elif ! [ "$(stat -c "%F" $HOME/bin/$1)" = "symbolic link" ]; then
+		echo "ERROR: $HOME/bin/$1 is not a symbolic link." >&2
 		exit 1
 	fi
 	
 	# Deletes link from ~/bin
-	echo "Deleting $HOME/bin/$link..."
-	rm $HOME/bin/$link
-	echo "Link $HOME/bin/$link deleted."
+	echo "Deleting $HOME/bin/$1..."
+	rm $HOME/bin/$1
+	echo "Link $HOME/bin/$1 deleted."
 }
 
 # Lists the links currently present in ~/bin
@@ -74,7 +74,7 @@ if [ $# -eq 0 ]; then
 fi
 
 # Parses arguments
-while getopts ":ald:" option; do
+while getopts "ald:" option; do
 	case $option in
 		l) 
 			list
@@ -85,12 +85,7 @@ while getopts ":ald:" option; do
 			exit
 			;;
 		d) 
-			link=$OPTARG
-			delete $link
-			exit
-			;;
-		\?) 
-			echo "ERROR: Invalid option" >&2
+			delete $OPTARG
 			exit
 			;;
 	esac
