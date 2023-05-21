@@ -12,6 +12,7 @@ help(){
 	echo "Options:"
 	echo -e "\t-a\t\tLinks scripts from the master branch of the current repository to ~/bin."
 	echo -e "\t-l\t\tLists the links currently present in ~/bin."
+	echo -e "\t-s string\tSearches for links in ~/bin that match a specified search string."
 	echo -e "\t-d string\tDeletes a specified link from ~/bin."
 	echo -e "\t-h\t\tPrints this help message.\n"
 }
@@ -82,6 +83,28 @@ list(){
 	#echo
 }
 
+# Searches ~/bin for a specified link
+search(){
+	matches=$(ls $HOME/bin | grep $1)
+	if [ $? -eq 1 ]; then
+		echo "ERROR: No symlinks found in $HOME/bin like '$1'." >&2
+	else
+		heading="Symlinks like '$1' in $HOME/bin:"
+		length=$(echo $heading | wc -m)
+		border="-"
+		for ((i=1; i<=$((length - 2)); i++)); do
+			border="$border""-"
+		done
+		echo "$border"
+		echo "$heading"
+		echo "$border"
+		
+		for match in $matches; do
+			ls -lh $HOME/bin/$match
+		done
+	fi
+}
+
 #####################################################################
 # ENTRYPOINT                                                        #
 #####################################################################
@@ -98,7 +121,7 @@ if [ $# -eq 0 ]; then
 fi
 
 # Parses arguments
-while getopts "ald:h" option; do
+while getopts "als:d:h" option; do
 	case $option in
 		l) 
 			list
@@ -106,6 +129,10 @@ while getopts "ald:h" option; do
 			;;
 		a)
 			add
+			exit
+			;;
+		s) 
+			search $OPTARG
 			exit
 			;;
 		d) 
