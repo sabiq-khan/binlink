@@ -7,7 +7,7 @@
 #####################################################################
 # Explains how to use `binlink` and its options
 help(){
-	echo -e "Usage: binlink -[OPTIONS] [ARGUMENTS]\n"
+	echo -e "\nUsage: binlink -[OPTIONS] [ARGUMENTS]\n"
 	echo -e "Symlinks scripts from their respective repositories to ~/bin, making them executable by name like built-in bash commands and GNU utilities by adding them to the \$PATH.\n"
 	echo "Options:"
 	echo -e "\t-a\t\tLinks scripts from the master branch of the current repository to ~/bin."
