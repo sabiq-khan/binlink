@@ -80,8 +80,8 @@ fi
 
 # Checks if the script was called with arguments
 if [ $# -eq 0 ]; then
-	echo "ERROR: No arguments specified." >&2
-	exit 1
+	help
+	exit
 fi
 
 # Parses arguments
