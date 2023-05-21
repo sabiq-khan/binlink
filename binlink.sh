@@ -66,7 +66,11 @@ delete(){
 
 # Lists the links currently present in ~/bin
 list(){
+	echo "----------------------------"
+	echo -e "Symlinks in $HOME/bin:"
+	echo "----------------------------"
 	ls -lh $HOME/bin | grep "^l"
+	#echo
 }
 
 #####################################################################
