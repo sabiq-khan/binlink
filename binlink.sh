@@ -66,9 +66,18 @@ delete(){
 
 # Lists the links currently present in ~/bin
 list(){
-	echo "----------------------------"
-	echo -e "Symlinks in $HOME/bin:"
-	echo "----------------------------"
+	# Creates the heading, accounts for variation in dir names
+	heading="Symlinks in $HOME/bin:"
+	length=$(echo $heading | wc -m)
+	border="-"
+	for ((i=1; i<=$((length - 2)); i++)); do
+		border="$border""-"
+	done
+	echo "$border"
+	echo "$heading"
+	echo "$border"
+
+	# Lists symlinks
 	ls -lh $HOME/bin | grep "^l"
 	#echo
 }
