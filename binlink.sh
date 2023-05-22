@@ -39,15 +39,8 @@ add() {
 # Lists the links currently present in ~/bin
 list(){
 	# Creates the heading, accounts for variation in dir names
-	local heading="Symlinks in $HOME/bin:"
-	local length=$(echo $heading | wc -m)
-	local border="-"
-	for ((i=1; i<=$((length - 2)); i++)); do
-		border="$border""-"
-	done
-	echo "$border"
-	echo "$heading"
-	echo "$border"
+	local heading=$(header "Symlinks in $HOME/bin:")
+	echo -e $heading
 
 	# Lists symlinks
 	ls -lh $HOME/bin | grep "^l"
