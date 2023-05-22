@@ -39,9 +39,9 @@ add() {
 # Lists the links currently present in ~/bin
 list(){
 	# Creates the heading, accounts for variation in dir names
-	heading="Symlinks in $HOME/bin:"
-	length=$(echo $heading | wc -m)
-	border="-"
+	local heading="Symlinks in $HOME/bin:"
+	local length=$(echo $heading | wc -m)
+	local border="-"
 	for ((i=1; i<=$((length - 2)); i++)); do
 		border="$border""-"
 	done
@@ -60,16 +60,9 @@ search(){
 	if [ $? -eq 1 ]; then
 		echo "ERROR: No symlinks found in $HOME/bin like '$1'." >&2
 	else
-		heading="Symlinks like '$1' in $HOME/bin:"
-		length=$(echo $heading | wc -m)
-		border="-"
-		for ((i=1; i<=$((length - 2)); i++)); do
-			border="$border""-"
-		done
-		echo "$border"
-		echo "$heading"
-		echo "$border"
-		
+		local heading=$(header "Symlinks like '$1' in $HOME/bin:")
+		echo -e $heading
+
 		for match in $matches; do
 			ls -lh $HOME/bin/$match
 		done
@@ -105,6 +98,17 @@ help(){
 	echo -e "\t-h\t\tPrints this help message.\n"
 }
 
+# Creates a header for an STDOUT message, borders match its size
+header(){
+	local heading=$1
+
+	local length=$(echo $heading | wc -m)
+	local border="-"
+	for ((i=1; i<=$((length - 2)); i++)); do
+		border="$border""-"
+	done
+	echo "$border\n$heading\n$border"
+}
 
 #####################################################################
 # ENTRYPOINT                                                        #
