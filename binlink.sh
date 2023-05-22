@@ -9,14 +9,14 @@
 # of a source repo
 add() {
 	# Checks that the current directory contains a git repository
-	if ! [ -d $PWD/.git ]; then
+	if ! [[ -d $PWD/.git ]]; then
 		echo "ERROR: No git repository in current directory $PWD." >&2
 		exit 1	
 	fi
 
 	# Checks that the current branch is master
 	local currBranch=$(git rev-parse --abbrev-ref HEAD)
-	if ! [ $currBranch = "master" ]; then
+	if ! [[ $currBranch = "master" ]]; then
 		echo "ERROR: Current branch is $currBranch, not master." >&2 
 		exit 1
 	fi
@@ -30,7 +30,7 @@ add() {
 		local link=$HOME/bin/$(basename $script | sed 's/\..*//g')
 		echo "Creating link in $HOME/bin..."
 		ln -s $script $link
-		if [ $? -eq 0 ]; then
+		if [[ $? -eq 0 ]]; then
 			echo "Link $link created."
 		fi
 	done
@@ -65,10 +65,10 @@ search(){
 # Delete a specified link from ~/bin 
 delete(){
 	# Checks if specified file exists in ~/bin and if it's a link
-	if ! [ -f $HOME/bin/$1 ]; then
+	if ! [[ -f $HOME/bin/$1 ]]; then
 		echo "ERROR: $HOME/bin does not contain '$1'." >&2
 		exit 1
-	elif ! [ "$(stat -c "%F" $HOME/bin/$1)" = "symbolic link" ]; then
+	elif ! [[ "$(stat -c "%F" $HOME/bin/$1)" = "symbolic link" ]]; then
 		echo "ERROR: $HOME/bin/$1 is not a symbolic link." >&2
 		exit 1
 	fi
@@ -108,13 +108,13 @@ header(){
 # ENTRYPOINT                                                        #
 #####################################################################
 # Checks if ~/bin exists, since all script actions depend on it
-if ! [ -d $HOME/bin ]; then
+if ! [[ -d $HOME/bin ]]; then
 	echo "ERROR: $HOME/bin does not exist." >&2
    	exit 1
 fi
 
 # Checks if the script was called with arguments
-if [ $# -eq 0 ]; then
+if [[ $# -eq 0 ]]; then
 	help
 	exit
 fi
@@ -144,5 +144,4 @@ while getopts "als:d:h" option; do
 			;;
 	esac
 done
-
 
