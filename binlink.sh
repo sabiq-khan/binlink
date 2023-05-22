@@ -100,6 +100,7 @@ header(){
 	for ((i=1; i<=$((length - 2)); i++)); do
 		border="$border""-"
 	done
+
 	echo "$border\n$heading\n$border"
 }
 
