@@ -5,18 +5,6 @@
 #####################################################################
 # FUNCTIONS                                                         #
 #####################################################################
-# Explains how to use `binlink` and its options
-help(){
-	echo -e "\nUsage: binlink -[OPTIONS] [ARGUMENTS]\n"
-	echo -e "Symlinks scripts from their respective repositories to ~/bin, making them executable by name like built-in bash commands and GNU utilities by adding them to the \$PATH.\n"
-	echo "Options:"
-	echo -e "\t-a\t\tLinks scripts from the master branch of the current repository to ~/bin."
-	echo -e "\t-l\t\tLists the links currently present in ~/bin."
-	echo -e "\t-s string\tSearches for links in ~/bin that match a specified search string."
-	echo -e "\t-d string\tDeletes a specified link from ~/bin."
-	echo -e "\t-h\t\tPrints this help message.\n"
-}
-
 # Adds a new link in ~/bin to another script from the main branch
 # of a source repo
 add() {
@@ -46,23 +34,6 @@ add() {
 			echo "Link $link created."
 		fi
 	done
-}
-
-# Delete a specified link from ~/bin 
-delete(){
-	# Checks if specified file exists in ~/bin and if it's a link
-	if ! [ -f $HOME/bin/$1 ]; then
-		echo "ERROR: $HOME/bin does not contain '$1'." >&2
-		exit 1
-	elif ! [ "$(stat -c "%F" $HOME/bin/$1)" = "symbolic link" ]; then
-		echo "ERROR: $HOME/bin/$1 is not a symbolic link." >&2
-		exit 1
-	fi
-	
-	# Deletes link from ~/bin
-	echo "Deleting link $HOME/bin/$1..."
-	rm $HOME/bin/$1
-	echo "Link $HOME/bin/$1 deleted."
 }
 
 # Lists the links currently present in ~/bin
@@ -105,6 +76,36 @@ search(){
 	fi
 }
 
+# Delete a specified link from ~/bin 
+delete(){
+	# Checks if specified file exists in ~/bin and if it's a link
+	if ! [ -f $HOME/bin/$1 ]; then
+		echo "ERROR: $HOME/bin does not contain '$1'." >&2
+		exit 1
+	elif ! [ "$(stat -c "%F" $HOME/bin/$1)" = "symbolic link" ]; then
+		echo "ERROR: $HOME/bin/$1 is not a symbolic link." >&2
+		exit 1
+	fi
+	
+	# Deletes link from ~/bin
+	echo "Deleting link $HOME/bin/$1..."
+	rm $HOME/bin/$1
+	echo "Link $HOME/bin/$1 deleted."
+}
+
+# Explains how to use `binlink` and its options
+help(){
+	echo -e "\nUsage: binlink -[OPTIONS] [ARGUMENTS]\n"
+	echo -e "Symlinks scripts from their respective repositories to ~/bin, making them executable by name like built-in bash commands and GNU utilities by adding them to the \$PATH.\n"
+	echo "Options:"
+	echo -e "\t-a\t\tLinks scripts from the master branch of the current repository to ~/bin."
+	echo -e "\t-l\t\tLists the links currently present in ~/bin."
+	echo -e "\t-s string\tSearches for links in ~/bin that match a specified search string."
+	echo -e "\t-d string\tDeletes a specified link from ~/bin."
+	echo -e "\t-h\t\tPrints this help message.\n"
+}
+
+
 #####################################################################
 # ENTRYPOINT                                                        #
 #####################################################################
@@ -123,12 +124,12 @@ fi
 # Parses arguments
 while getopts "als:d:h" option; do
 	case $option in
-		l) 
-			list
-			exit
-			;;
 		a)
 			add
+			exit
+			;;
+		l) 
+			list
 			exit
 			;;
 		s) 
